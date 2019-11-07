@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Tree Care</string>
+    <string name="do_am_title">Độ Ẩm:</string>
+    <string name="_0_percent">0%</string>
+    <string name="may_bom">Máy Bơm</string>
+    <string name="den_led">Đèn Led</string>>
+    <string name="cap_nhat">Cập nhật thông tin hiện tại</string>
+</resources>
