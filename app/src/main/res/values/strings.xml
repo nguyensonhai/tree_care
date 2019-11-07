@@ -4,5 +4,6 @@
     <string name="_0_percent">0%</string>
     <string name="may_bom">Máy Bơm</string>
     <string name="den_led">Đèn Led</string>>
-    <string name="cap_nhat">Cập nhật thông tin hiện tại</string>
+    <string name="cap_nhat">Cập nhật hiện tại</string>
+    <string name="thoat">Thoát ứng dụng</string>
 </resources>

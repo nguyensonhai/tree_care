@@ -23,6 +23,7 @@
             android:layout_marginTop="112dp"
             android:text="@string/do_am_title"
             android:textSize="40sp"
+            android:textColor="#323F61"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
@@ -36,6 +37,7 @@
             android:layout_marginTop="112dp"
             android:text="@string/_0_percent"
             android:textSize="40sp"
+            android:textColor="#323F61"
             app:layout_constraintStart_toEndOf="@+id/titleDoAm"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
@@ -56,6 +58,7 @@
             android:layout_marginTop="48dp"
             android:text="@string/may_bom"
             android:textSize="25sp"
+            android:textColor="#fff"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,6 +71,7 @@
             android:layout_marginTop="48dp"
             android:text="@string/den_led"
             android:textSize="25sp"
+            android:textColor="#fff"
             app:layout_constraintStart_toEndOf="@+id/lblMayBom"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -109,10 +113,12 @@
 
 
         <Button
-            android:id="@+id/btnCapNhat"
+            android:background="#fff"
+            android:textColor="#323F61"
+            android:id="@+id/btnClose"
             android:layout_width="316dp"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:text="@string/cap_nhat" />
+            android:text="@string/thoat" />
     </LinearLayout>
 </LinearLayout>

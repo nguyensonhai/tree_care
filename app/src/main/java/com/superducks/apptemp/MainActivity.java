@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,7 +30,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     TextView txtDoAm;
-    Button btnCapNhat;
+    Button btnClose;
     ImageButton imgbutMayBom, imgbutDen;
     JSONArray response_toancuc;
     String doAm;
@@ -43,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //Ánh xạ
         AnhXa();
+        update();
+        update_loop();
         //Code
-        btnCapNhat.setOnClickListener(new View.OnClickListener() {
+        btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ReadJSON("http://appdodoam.herokuapp.com/NhanTuServer.php");
-
+                System.exit(0);
             }
         });
 
@@ -96,8 +98,27 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void controlMayBom() {
+    public void update_loop() {
 
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                UpdateThongSo("http://appdodoam.herokuapp.com/NhanTuServer.php");
+                update_return_loop();
+            }
+        }, 1000);
+    }
+    public void update_return_loop() {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                UpdateThongSo("http://appdodoam.herokuapp.com/NhanTuServer.php");
+                update_loop();
+            }
+        }, 1000);
     }
 
 
@@ -105,36 +126,73 @@ public class MainActivity extends AppCompatActivity {
         //Ánh xạ
         imgbutMayBom = (ImageButton) findViewById(R.id.btnMayBom);
         imgbutDen = (ImageButton) findViewById(R.id.btnDenLed);
-        btnCapNhat = (Button) findViewById(R.id.btnCapNhat);
+        btnClose = (Button) findViewById(R.id.btnClose);
         txtDoAm = (TextView) findViewById(R.id.txtDoAm);
 
     }
 
-    private void ReadJSON(String url){
+    private void UpdateThongSo(String url) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 response_toancuc = response;
-                //Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_LONG).show();
                 try {
                     JSONObject object = response.getJSONObject(0);
                     doAm = object.getString("doam");
                     txtDoAm.setText(doAm +"%");
-                    Toast.makeText(MainActivity.this, "Độ ẩm hiện tại là " + doAm + "%", Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "Không thể kết nối với Server, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
                 }
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Không thể kết nối với Server, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
         requestQueue.add(jsonArrayRequest);
+    }
+
+    private void UpdateDevices(String url) {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                response_toancuc = response;
+                try {
+                    JSONObject object1 = response.getJSONObject(0);
+                    JSONObject object2 = response.getJSONObject(1);
+                        if(object1.getString("device_status").equals("on"))
+                            imgbutMayBom.setImageResource(R.drawable.on_switch);
+                        else
+                            imgbutMayBom.setImageResource(R.drawable.off_switch);
+                        if(object2.getString("device_status").equals("on"))
+                            imgbutDen.setImageResource(R.drawable.on_switch);
+                        else
+                            imgbutDen.setImageResource(R.drawable.off_switch);
+
+                } catch (JSONException e) {
+                    Toast.makeText(MainActivity.this, "Không thể kết nối với Server, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, "Không thể kết nối với Server, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+    private void update(){
+        UpdateThongSo("http://appdodoam.herokuapp.com/NhanTuServer.php");
+        UpdateDevices("https://appdodoam.herokuapp.com/DevicesStatus.php");
     }
 
     private void UpdateStatusDevices(String url){
@@ -159,14 +217,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    Toast.makeText(MainActivity.this, "Đã xảy ra lỗi, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Không thể kết nối với Server, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
                 }
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Lỗi Server, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Không thể kết nối với Server, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
