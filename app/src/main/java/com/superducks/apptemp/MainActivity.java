@@ -2,12 +2,15 @@ package com.superducks.apptemp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +29,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView txtDoAm;
+    TextView txtDoAm, titleDoAm;
     Button btnClose;
     ImageButton imgbutMayBom, imgbutDen;
     JSONArray response_toancuc;
@@ -37,13 +41,48 @@ public class MainActivity extends AppCompatActivity {
     int statusMayBom = 0, statusDen = 0;
     int id = 1;
     String device_name, device_status;
+    LinearLayout mainLinearLayout;
     String action;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //Ánh xạ
+        mainLinearLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
+        //set random background
+        final int min = 1;
+        final int max = 4;
+        final int random = new Random().nextInt((max - min) + 1) + min;
         AnhXa();
+        switch (random) {
+            case 1:
+                mainLinearLayout.setBackgroundResource(R.drawable.background_1);
+                txtDoAm.setTextColor(Color.parseColor("#40415F"));
+                titleDoAm.setTextColor(Color.parseColor("#40415F"));
+                btnClose.setTextColor(Color.parseColor("#40415F"));
+                btnClose.setBackgroundColor(Color.parseColor("#FAC8CB"));
+                break;
+            case 2:
+                mainLinearLayout.setBackgroundResource(R.drawable.background_2);
+                txtDoAm.setTextColor(Color.parseColor("#0F1E25"));
+                titleDoAm.setTextColor(Color.parseColor("#0F1E25"));
+                btnClose.setTextColor(Color.parseColor("#0F1E25"));
+                btnClose.setBackgroundColor(Color.parseColor("#C8E690"));
+                break;
+            case 3:
+                mainLinearLayout.setBackgroundResource(R.drawable.background_3);
+                txtDoAm.setTextColor(Color.parseColor("#2E112D"));
+                titleDoAm.setTextColor(Color.parseColor("#2E112D"));
+                btnClose.setTextColor(Color.parseColor("#2E112D"));
+                btnClose.setBackgroundColor(Color.parseColor("#FDDAC6"));
+                break;
+            case 4:
+                mainLinearLayout.setBackgroundResource(R.drawable.background_4);
+                txtDoAm.setTextColor(Color.parseColor("#323F61"));
+                titleDoAm.setTextColor(Color.parseColor("#323F61"));
+                btnClose.setTextColor(Color.parseColor("#323F61"));
+                btnClose.setBackgroundColor(Color.parseColor("#E5F4FB"));
+                break;
+        }
         update();
         update_loop();
         //Code
@@ -128,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         imgbutDen = (ImageButton) findViewById(R.id.btnDenLed);
         btnClose = (Button) findViewById(R.id.btnClose);
         txtDoAm = (TextView) findViewById(R.id.txtDoAm);
-
+        titleDoAm = (TextView) findViewById(R.id.titleDoAm);
     }
 
     private void UpdateThongSo(String url) {
