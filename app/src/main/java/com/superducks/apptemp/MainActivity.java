@@ -204,14 +204,20 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject object1 = response.getJSONObject(0);
                     JSONObject object2 = response.getJSONObject(1);
-                        if(object1.getString("device_status").equals("on"))
+                        if(object1.getString("device_status").equals("on")){
                             imgbutMayBom.setImageResource(R.drawable.on_switch);
-                        else
+                            statusMayBom = 1;
+                        }
+                        else {
                             imgbutMayBom.setImageResource(R.drawable.off_switch);
-                        if(object2.getString("device_status").equals("on"))
+                        }
+                        if(object2.getString("device_status").equals("on")) {
                             imgbutDen.setImageResource(R.drawable.on_switch);
-                        else
+                            statusDen = 1;
+                        }
+                        else {
                             imgbutDen.setImageResource(R.drawable.off_switch);
+                        }
 
                 } catch (JSONException e) {
                     Toast.makeText(MainActivity.this, "Không thể kết nối với Server, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
